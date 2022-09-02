@@ -1,6 +1,6 @@
 from pyteal import *
 
-def game():
+def main():
     '''
     Save application args when app is initialized
     '''
@@ -80,4 +80,4 @@ def game():
     return program
 
 if __name__ == "__main__":
-    print(compileTeal(game(), mode=Mode.Application, version=6))
+    print(compileTeal(main(), mode=Mode.Application, version=6))
