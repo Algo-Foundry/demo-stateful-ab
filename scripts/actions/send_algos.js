@@ -9,13 +9,11 @@ async function run(runtimeEnv, deployer) {
     const acc1Initial = await deployer.algodClient.accountInformation(acc1.addr).do();
 
     // get app info
-    const approvalFile = "ab_approval.py";
-    const clearStateFile = "ab_clearstate.py";
-    const app = deployer.getApp(approvalFile, clearStateFile);
+    const app = deployer.getApp("Demo Stateful App");
 
     // send 1 Algos to acc1 via app call by master
     const appCallArgs = [convert.stringToBytes("SendAlgos"), convert.uint64ToBigEndian(1e6)];
-    await executeTransaction(deployer, {
+    await deployer.executeTx({
         type: types.TransactionType.CallApp,
         sign: types.SignType.SecretKey,
         fromAccount: master,

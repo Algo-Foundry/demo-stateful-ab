@@ -24,10 +24,12 @@ async function run(runtimeEnv, deployer) {
      */
     const deployAppArgs = [convert.stringToBytes("Hello"), convert.uint64ToBigEndian(5)];
     await deployer.deployApp(
-        approvalFile,
-        clearStateFile,
+        master,
         {
-            sender: master,
+            appName: "Demo Stateful App",
+            metaType: types.MetaType.FILE,
+            approvalProgramFilename: approvalFile,
+            clearProgramFilename: clearStateFile,
             localInts: 1,
             localBytes: 1,
             globalInts: 1,
@@ -38,10 +40,10 @@ async function run(runtimeEnv, deployer) {
     );
 
     // get app info
-    const app = deployer.getApp(approvalFile, clearStateFile);
+    const app = deployer.getApp("Demo Stateful App");
 
     // fund contract with some algos to handle inner txn
-    await executeTransaction(deployer, {
+    await deployer.executeTx({
         type: types.TransactionType.TransferAlgo,
         sign: types.SignType.SecretKey,
         fromAccount: master,
