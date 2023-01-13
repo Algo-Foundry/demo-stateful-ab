@@ -7,9 +7,7 @@ async function run(runtimeEnv, deployer) {
     const acc1 = deployer.accountsByName.get("acc1");
 
     // get app info
-    const approvalFile = "ab_approval.py";
-    const clearStateFile = "ab_clearstate.py";
-    const app = deployer.getApp(approvalFile, clearStateFile);
+    const app = deployer.getApp("Demo Stateful App");
 
     // receiver opt into the contract
     const appLocalState = await helper.readLocalStateWithoutAlgoBuilder(deployer.algodClient, acc1.addr, app.appID);
@@ -23,7 +21,7 @@ async function run(runtimeEnv, deployer) {
 
     // update local state
     const appCallArgs = [convert.stringToBytes("UpdateLocal")];
-    await executeTransaction(deployer, {
+    await deployer.executeTx({
         type: types.TransactionType.CallApp,
         sign: types.SignType.SecretKey,
         fromAccount: acc1,
